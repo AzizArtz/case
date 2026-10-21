@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASE #001: TOP SECRET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #FFF1D6; /* Krem kertas */
+            background-image: 
+                linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+                linear-gradient(#eee .1em, transparent .1em);
+            background-size: 100% 1.2em;
+            overflow-x: hidden;
+            user-select: none;
+            color: #111;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Neobrutalism Base */
+        .neo-border {
+            border: 3px solid #000;
+        }
+        
+        .neo-shadow {
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .folder-tab {
+            background-color: #FF6B6B;
+            border: 3px solid #000;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            padding: 8px 24px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .folder-body {
+            background-color: #fdfbf7;
+            border: 3px solid #000;
+            box-shadow: 8px 8px 0px rgba(0,0,0,1);
+            padding: 24px;
+        }
+
+        .sticky-note {
+            background-color: #FFE600;
+            padding: 16px;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            position: relative;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .sticky-note:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .polaroid {
+            background-color: white;
+            padding: 12px 12px 36px 12px;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px #000;
+            text-align: center;
+        }
+
+        .btn-neo {
+            background-color: #000;
+            color: #fff;
+            border: 3px solid #000;
+            padding: 12px 24px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.1s;
+            box-shadow: 4px 4px 0px #FF6B6B;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-neo:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #FF6B6B;
+        }
+
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stamp Animation */
+        .stamp {
+            color: #FF0000;
+            border: 4px solid #FF0000;
+            padding: 10px 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transform: rotate(-15deg) scale(3);
+            opacity: 0;
+            display: inline-block;
+            pointer-events: none;
+            position: absolute;
+            z-index: 50;
+        }
+
+        .stamp.show {
+            animation: stampBang 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stampBang {
+            0% { transform: rotate(-15deg) scale(3); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: rotate(-15deg) scale(1); opacity: 1; }
+        }
+
+        .evidence-hidden .evidence-content { display: none; }
+        .evidence-hidden .evidence-cover { display: block; }
+        .evidence-revealed .evidence-content { display: block; }
+        .evidence-revealed .evidence-cover { display: none; }
+        
+        .evidence-revealed {
+            background-color: #fff !important;
+            cursor: default;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- A. CLASSIFIED CASE FILE -->
+    <div id="screen-intro" class="screen active relative z-10 w-full max-w-2xl mx-auto">
+        <div class="w-full relative">
+            <!-- Paperclip decoration -->
+            <svg class="absolute -top-6 left-10 w-12 h-12 z-20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><path d="M14 7v9a5 5 0 0 1-10 0V6a7 7 0 0 1 14 0v11a9 9 0 0 1-18 0V6"/></svg>
+
+            <div class="folder-tab text-white tracking-widest">
+                CLASSIFIED_FILE.DOC
+            </div>
+            <div class="folder-body relative">
+                <!-- Top Secret Stamp -->
+                <div class="absolute top-4 right-4 border-4 border-red-600 text-red-600 font-bold px-3 py-1 transform rotate-12 text-xl tracking-widest z-10 opacity-80">
+                    TOP SECRET
+                </div>
+
+                <div class="text-center mt-8 mb-6">
+                    <svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6M8 11h6" stroke="#FF6B6B"/></svg>
+                    <h1 class="text-3xl md:text-5xl font-bold bg-[#FF91C8] inline-block px-4 py-2 border-4 border-black shadow-[4px_4px_0px_black] transform -rotate-2">
+                        CASE #001
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-bold mt-4">WHO STOLE MY HEART?</h2>
+                </div>
+
+                <div class="bg-gray-100 p-4 border-2 border-black border-dashed mb-8">
+                    <p class="font-bold text-lg mb-2">Subject: My Favorite Girl, Putri</p>
+                    <p class="mb-2">Gue lagi menyelidiki kasus pencurian hati. Tersangkanya bernama Putri, orang yang entah gimana caranya bisa bikin gue kangen bahkan saat kita baru aja ngobrol. Lebih parahnya lagi, korban bukannya mau minta hatinya dibalikin, malah pengen makin sayang sama pelakunya.</p>
+                    <p class="font-handwriting text-2xl text-red-600 mt-4 transform -rotate-1">PERINGATAN: TERLALU CANTIK UNTUK TIDAK DIRINDUKAN.</p>
+                </div>
+
+                <div class="text-center">
+                    
+                  <button onclick="startMusic(); goToScreen('screen-evidence')" class="btn-neo bg-[#FFE600] text-black">BUKA BERKAS PENYELIDIKAN</button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- B. EVIDENCE ROOM -->
+    <div id="screen-evidence" class="screen relative z-10 w-full max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold bg-white border-4 border-black px-6 py-2 mb-2 shadow-[4px_4px_0px_black] inline-block">EVIDENCE ROOM</h2>
+        <p class="font-handwriting text-2xl mb-8 transform rotate-2">Buka bukti-bukti di bawah ini!</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mb-8">
+            
+            <!-- Evidence A -->
+            <div class="sticky-note transform -rotate-3 evidence-hidden" onclick="revealEvidence(this)">
+                <div class="evidence-cover text-center py-6">
+                    <svg class="w-12 h-12 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <h3 class="font-bold text-xl">Bukti A</h3>
+                    <p class="text-sm mt-2">(Klik untuk buka)</p>
+                </div>
+                <div class="evidence-content text-center">
+                    <h3 class="font-bold text-lg border-b-2 border-black pb-2 mb-2 bg-[#FF91C8] px-2">EVIDENCE A</h3>
+                    <p class="font-bold mb-2 text-xl">Senyumnya.</p>
+                    <p class="font-handwriting text-lg text-gray-700">Efek sampingnya meliputi senyum-senyum sendiri, kangen mendadak, dan keinginan buat meluk orangnya meskipun cuma bisa lewat layar.</p>
+                </div>
+            </div>
+
+            <!-- Evidence B -->
+            <div class="sticky-note transform rotate-2 evidence-hidden" onclick="revealEvidence(this)">
+                <!-- Tape top -->
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-12 h-6 bg-white opacity-50 border border-gray-300 z-10"></div>
+                
+                <div class="evidence-cover text-center py-6">
+                    <svg class="w-12 h-12 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <h3 class="font-bold text-xl">Bukti B</h3>
+                    <p class="text-sm mt-2">(Klik untuk buka)</p>
+                </div>
+                <div class="evidence-content text-center">
+                    <h3 class="font-bold text-lg border-b-2 border-black pb-2 mb-2 bg-[#abced4] px-2">EVIDENCE B</h3>
+                    <p class="font-bold mb-2 text-xl">Cara Ngomong.</p>
+                    <p class="font-handwriting text-lg text-gray-700">Mau cerita penting, cerita random, atau ngomel nggak jelas sekalipun, anehnya korbam tetep betah dengerin. Kayaknya otak korban udah langganan paket premium khusus suara pelaku</p>
+                </div>
+            </div>
+
+            <!-- Evidence C -->
+            <div class="sticky-note transform -rotate-1 evidence-hidden" style="background-color: #FF91C8;" onclick="revealEvidence(this)">
+                <div class="evidence-cover text-center py-6">
+                    <svg class="w-12 h-12 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <h3 class="font-bold text-xl">Bukti C</h3>
+                    <p class="text-sm mt-2">(Klik untuk buka)</p>
+                </div>
+                <div class="evidence-content text-center">
+                    <h3 class="font-bold text-lg border-b-2 border-black pb-2 mb-2 bg-white px-2">EVIDENCE C</h3>
+                    <p class="font-bold mb-2 text-xl">Kehadirannya.</p>
+                    <p class="font-handwriting text-lg text-gray-700">Gak ngapa-ngapain aja udah bikin kepikiran. Ini fix pake pelet digital sih.</p>
+                </div>
+            </div>
+        </div>
+
+        <button id="btn-to-interrogation" onclick="goToScreen('screen-interrogation')" class="btn-neo hidden mx-auto transform -rotate-2">PROSES KE RUANG INTEROGASI</button>
+    </div>
+
+    <!-- C. INTERROGATION ROOM -->
+    <div id="screen-interrogation" class="screen relative z-10 w-full max-w-2xl mx-auto">
+        <div class="folder-body relative bg-white w-full">
+            <h2 class="text-2xl font-bold border-b-4 border-black pb-4 mb-6 flex items-center gap-3">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+                RUANG INTEROGASI
+            </h2>
+            
+            <div class="bg-gray-300 w-full h-16 mb-1 overflow-hidden">
+    <img
+        src="images/putri.jpg"
+        alt="Putri"
+        class="w-full h-full object-cover"
+    >
+            </div>
+                    <p class="font-handwriting text-xs text-center">Tersangka</p>
+                </div>
+
+                <p class="text-xl font-bold mb-6 pr-12">"Putri, jawab jujur di bawah sumpah. kamu sadar nggak sih kalau ada cowok yang makin hari makin sayang sama kamu, padahal harusnya dia udah kebal sama kelakuan pacarnya sendiri?"</p>
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="handleInterrogation('A')" class="text-left bg-white border-2 border-black p-3 font-bold hover:bg-[#FFE600] transition-colors">A. "Sadar dong, kan aku pacar kamu"</button>
+                    <button onclick="handleInterrogation('B')" class="text-left bg-white border-2 border-black p-3 font-bold hover:bg-[#FFE600] transition-colors">B. "Masa sih? Emang sesayang itu?"</button>
+                    <button onclick="handleInterrogation('C')" class="text-left bg-white border-2 border-black p-3 font-bold hover:bg-[#FFE600] transition-colors">C. *Pura-pura nggak tahu & buang muka*</button>
+                </div>
+            </div>
+
+            <div id="interrogation-response" class="hidden p-4 border-l-4 border-red-600 bg-red-50 mb-6">
+                <p class="font-bold text-red-600 mb-1">Catatan Detektif:</p>
+                <p id="response-text" class="font-handwriting text-2xl text-gray-800"></p>
+            </div>
+
+            <button id="btn-verdict" onclick="showVerdict()" class="btn-neo w-full hidden">LIHAT KESIMPULAN KASUS</button>
+        </div>
+    </div>
+
+    <!-- D. CASE CONCLUSION & FINAL MISSION -->
+    <div id="screen-conclusion" class="screen relative z-10 w-full max-w-2xl mx-auto text-center">
+        <div class="folder-body bg-[#FFF1D6] relative overflow-hidden">
+            <h2 class="text-3xl font-bold mb-8">CASE CLOSED.</h2>
+            
+            <p class="text-xl mb-12">Setelah mengumpulkan seluruh bukti, memeriksa saksi, dan mempertimbangkan tingkah laku tersangka yang kelewat cantik, pengadilan akhirnya mencapai satu kesimpulan.</p>
+            
+            <div class="relative h-32 mb-12 flex justify-center items-center">
+                <div id="the-stamp" class="stamp">GUILTY OF MAKING ME FALL IN LOVE</div>
+            </div>
+
+            <div id="final-mission" class="hidden opacity-0 transition-opacity duration-500">
+                <div class="bg-white border-4 border-black p-6 neo-shadow mb-8 transform rotate-1">
+                    <h3 class="font-bold text-2xl mb-4 text-[#FF6B6B]">FINAL MISSION</h3>
+                    <p class="mb-4">Hukuman untuk tersangka: <strong>kirim pap sambil senyum. Kalau aku salting, kamu menang. Kalau aku makin sayang, ya salah kamu sendiri terlalu cantik.</strong></p>
+                    <p class="font-handwriting text-xl text-gray-600 mb-6">Gak ada opsi banding ya, udah putusan final dari pengadilan hati. Ciaelah.</p>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="sendWA()" class="btn-neo bg-[#FF6B6B] text-white">ACCEPT MISSION</button>
+                        <button onclick="alert('Detail Hukuman Putri 💗: Wajib kirim pap tercantik yang Putri punya buat pacarnya yang lagi kangen. Bonus poin kalau sambil senyum. Kalau nggak mau, boleh ganti dengan satu gombalan manis. Tertanda: pacar kamu yang bucin.')" class="btn-neo bg-white text-black">LIHAT DETAIL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKGROUND MUSIC -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="audio/detective-theme.mp3" type="audio/mpeg">
+    </audio>
+
+    <button
+        id="music-toggle"
+        onclick="toggleMusic()"
+        class="fixed bottom-5 right-5 z-50 bg-white border-3 border-black px-4 py-3 font-bold shadow-[4px_4px_0px_black] hover:bg-[#FF91C8] transition-colors"
+        aria-label="Putar atau hentikan musik"
+    >
+        ♫ MUSIK: OFF
+    </button>
+
+    <script>
+        // Variables
+        let evidenceFound = 0;
+        
+const bgMusic = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+
+bgMusic.volume = 0.25;
+
+async function startMusic() {
+    try {
+        await bgMusic.play();
+        musicToggle.textContent = '♫ MUSIK: ON';
+    } catch (error) {
+        musicToggle.textContent = '♫ PUTAR MUSIK';
+    }
+}
+
+function toggleMusic() {
+    if (bgMusic.paused) {
+        startMusic();
+    } else {
+        bgMusic.pause();
+        musicToggle.textContent = '♫ MUSIK: OFF';
+    }
+}
+
+
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function revealEvidence(element) {
+            if (element.classList.contains('evidence-revealed')) return;
+            
+            element.classList.remove('evidence-hidden');
+            element.classList.add('evidence-revealed');
+            element.style.transform = 'rotate(0deg) scale(1.05)';
+            element.style.zIndex = '10';
+            
+            evidenceFound++;
+            
+            if (evidenceFound === 3) {
+                document.getElementById('btn-to-interrogation').classList.remove('hidden');
+            }
+        }
+
+        function handleInterrogation(choice) {
+            const responseBox = document.getElementById('interrogation-response');
+            const responseText = document.getElementById('response-text');
+            const btnVerdict = document.getElementById('btn-verdict');
+
+            let text = "";
+            if (choice === 'A') {
+                text = "Oh, jadi emang sengaja ya nebar pesona? Bahaya nih, meresahkan warga.";
+            } else if (choice === 'B') {
+                text = "Sesayang itu, Putri. Kalau rasa sayang aku bisa dijadiin saldo, mungkin kita udah nggak perlu mikirin tanggal tua.";
+            } else if (choice === 'C') {
+                text = "Cieee, pura-pura nggak tahu. Sini ngaku, Putri. Mukanya boleh buang ke mana-mana, tapi hatinya jangan ikut kabur dari aku.";
+            }
+
+            responseText.innerText = text;
+            responseBox.classList.remove('hidden');
+            btnVerdict.classList.remove('hidden');
+        }
+
+        function showVerdict() {
+            goToScreen('screen-conclusion');
+            
+            // Trigger stamp animation after a short delay
+            setTimeout(() => {
+                document.getElementById('the-stamp').classList.add('show');
+                
+                // Show final mission after stamp
+                setTimeout(() => {
+                    const finalMission = document.getElementById('final-mission');
+                    finalMission.classList.remove('hidden');
+                    // Small delay to allow display:block to apply before changing opacity
+                    setTimeout(() => {
+                        finalMission.style.opacity = '1';
+                    }, 50);
+                }, 1000);
+            }, 800);
+        }
+
+        function sendWA() {
+            // Nomor WhatsApp tujuan (ganti dengan nomor kamu)
+            const waNumber = "6283186894625"; 
+            const message = encodeURIComponent("Hai, Detektif kesayangan aku! Aku menerima vonisnya. Untuk hukuman bonus, aku bakal kirim pap pilihan aku sendiri. Tapi kamu juga harus ngaku: siapa yang lebih bucin di hubungan ini, aku atau kamu? ❤️");
+            window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
